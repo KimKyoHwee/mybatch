@@ -16,7 +16,7 @@ import java.util.HashMap;
 //데이터용 DB
 @Configuration
 @EnableJpaRepositories(
-        basePackages = "com.example.samplebatch.repository",
+        basePackages = "com.kyohwee.batch.project.repository",
         entityManagerFactoryRef = "dataEntityManager",
         transactionManagerRef = "dataTransactionManager"
 )
@@ -35,7 +35,7 @@ public class DataDBConfig {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 
         em.setDataSource(dataDBSource());
-        em.setPackagesToScan(new String[]{"com.example.samplebatch.entity"});
+        em.setPackagesToScan(new String[]{"com.kyohwee.batch.project.entity"});
         em. setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
         HashMap<String, Object> properties = new HashMap<>();
