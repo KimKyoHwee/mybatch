@@ -34,14 +34,80 @@ public class FirstBatch {
     private final BeforeRepository beforeRepository;
     private final AfterRepository afterRepository;
 
+    /* TODO: STEP 전이나 후에 특정 작업을 넣고싶을 때
+    @Bean
+public StepExecutionListener stepExecutionListener() {
+
+    return new StepExecutionListener() {
+        @Override
+        public void beforeStep(StepExecution stepExecution) {
+            StepExecutionListener.super.beforeStep(stepExecution);
+        }
+
+        @Override
+        public ExitStatus afterStep(StepExecution stepExecution) {
+            return StepExecutionListener.super.afterStep(stepExecution);
+        }
+    };
+}
+
+@Bean
+public Step sixthStep() {
+
+    return new StepBuilder("sixthStep", jobRepository)
+            .<BeforeEntity, AfterEntity> chunk(10, platformTransactionManager)
+            .reader(beforeSixthReader())
+            .processor(middleSixthProcessor())
+            .writer(afterSixthWriter())
+            .listener(stepExecutionListener())
+            .build();
+}
+     */
+
+    /* TODO: JOB 실행 전이나 후에 작업을 넣고 싶을 때
+        @Bean
+    public JobExecutionListener jobExecutionListener() {
+
+        return new JobExecutionListener() {
+            @Override
+            public void beforeJob(JobExecution jobExecution) {
+                JobExecutionListener.super.beforeJob(jobExecution);
+            }
+
+            @Override
+            public void afterJob(JobExecution jobExecution) {
+                JobExecutionListener.super.afterJob(jobExecution);
+            }
+        };
+    }
+
+    @Bean
+    public Job sixthBatch() {
+
+        return new JobBuilder("sixthBatch", jobRepository)
+                .start(sixthStep())
+                .listener(jobExecutionListener())
+                .build();
+    }
+     */
+
     @Bean
     public Job firstJob() {
 
         System.out.println("first job");
 
+        /* TODO: Job 조건절
+				.start(stepA)
+				.on("*").to(stepB) //무슨 결과가 나와도 stepB실행
+				.from(stepA).on("FAILED").to(stepC)  //stepA가 실패하면 stepC실행
+				.from(stepA).on("COMPLETED").to(stepD)
+				.end()
+				.build();
+}
+         */
         return new JobBuilder("firstJob", jobRepository)        //Job이름과 저장할 job레포
                 .start(firstStep())         //처음 수행할 step
-                /* 순차적으로 수행할 step들
+                /* TODO: 순차적으로 수행할 step들
                 .next()
                 .next()
                  */
@@ -58,6 +124,20 @@ public class FirstBatch {
                 .reader(beforeReader())  //읽는 메소드 자리
                 .processor(middleProcessor())  //데이터 처리 메소드 자리
                 .writer(afterWriter())
+                /*  TODO: 오류 발생시 스킵
+                .faultTolerant()
+            .skip(Exception.class)  //스킵할 오류
+            .noSkip(FileNotFoundException.class)  //스킵하지 않을 오류
+            .noSkip(IOException.class)
+            .skipLimit(10)  //최대 몇번 스킵
+                 */
+                /* TODO: 오류 발생시 재시도
+                .faultTolerant()
+            .retryLimit(3)
+            .retry(SQLException.class)
+            .retry(IOException.class)
+            .noRetry(FileNotFoundException.class)
+                 */
                 .build();
     }
 
