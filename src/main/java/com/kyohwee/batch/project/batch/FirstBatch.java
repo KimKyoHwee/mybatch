@@ -22,6 +22,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 import java.util.Map;
 
+//beforeRepository의 모든 데이터를 afterRepository로 복사하는 배치
+
 @Configuration
 @RequiredArgsConstructor
 public class FirstBatch {
