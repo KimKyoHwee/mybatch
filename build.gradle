@@ -25,6 +25,7 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.apache.poi:poi-ooxml:5.3.0'      //엑셀 활용을 위한 dependency
 	implementation 'org.springframework.boot:spring-boot-starter-batch'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'

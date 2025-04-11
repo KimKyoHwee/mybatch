@@ -23,7 +23,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import java.util.Map;
 
 //beforeRepository의 모든 데이터를 afterRepository로 복사하는 배치
-
+// https://github.com/spring-projects/spring-batch/tree/main/spring-batch-samples/src/main/java/org/springframework/batch/samples/mongodb   공식참고 코드들 (JDBC, Mongo ...)
 @Configuration
 @RequiredArgsConstructor
 public class FirstBatch {
